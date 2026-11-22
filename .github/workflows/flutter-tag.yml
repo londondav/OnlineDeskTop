@@ -23,3 +23,10 @@ jobs:
       upload-tag: ${{ github.ref_type == 'tag' && github.ref_name || 'nightly' }}
       publish-update-metadata: false
 
+  rename-assets:
+    needs: run-flutter-tag-build
+    if: ${{ !cancelled() }}
+    uses: ./.github/workflows/rename-release-assets.yml
+    with:
+      tag: ${{ github.ref_type == 'tag' && github.ref_name || 'nightly' }}
+
