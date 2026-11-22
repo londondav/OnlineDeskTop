@@ -1,0 +1,24 @@
+name: OnlineDeskTop Release Build
+
+# Run manually (Actions -> "OnlineDeskTop Release Build" -> Run workflow) to publish
+# a "nightly" pre-release, or push a tag like v1.0.0 to publish a versioned release.
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+-[0-9]+'
+
+permissions:
+  contents: write
+
+jobs:
+  run-flutter-tag-build:
+    uses: ./.github/workflows/flutter-build.yml
+    secrets: inherit
+    with:
+      upload-artifact: true
+      upload-tag: ${{ github.ref_type == 'tag' && github.ref_name || 'nightly' }}
+      publish-update-metadata: false
