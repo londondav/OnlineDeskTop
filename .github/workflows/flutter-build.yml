@@ -470,7 +470,9 @@ jobs:
           sed -i '/dpiAware/d' res/manifest.xml
           pushd ./libs/portable
           pip3 install -r requirements.txt
-          python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/rustdesk.exe
+          rm -rf ../../rustdesk-portable && cp -r ../../rustdesk ../../rustdesk-portable
+          mv ../../rustdesk-portable/rustdesk.exe ../../rustdesk-portable/OnlineDeskTop.exe
+          python3 ./generate.py -f ../../rustdesk-portable/ -o . -e ../../rustdesk-portable/OnlineDeskTop.exe
           popd
           mkdir -p ./SignOutput
           mv ./target/release/rustdesk-portable-packer.exe ./SignOutput/rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.exe
@@ -766,7 +768,9 @@ jobs:
           sed -i '/dpiAware/d' res/manifest.xml
           pushd ./libs/portable
           pip3 install -r requirements.txt
-          python3 ./generate.py -f ../../Release/ -o . -e ../../Release/rustdesk.exe
+          rm -rf ../../Release-portable && cp -r ../../Release ../../Release-portable
+          mv ../../Release-portable/rustdesk.exe ../../Release-portable/OnlineDeskTop.exe
+          python3 ./generate.py -f ../../Release-portable/ -o . -e ../../Release-portable/OnlineDeskTop.exe
           popd
           mkdir -p ./SignOutput
           mv ./target/release/rustdesk-portable-packer.exe ./SignOutput/rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.exe
